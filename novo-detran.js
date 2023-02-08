@@ -419,7 +419,7 @@
         e.target.value += e.key;
       }
     };
-
+    //adicionado a tela de multas do site
     waitForKeyElements("#dtMultasWS_data", function (elem) {
       for (let row of elem.rows) {
         if (row.cells[6].innerText.trim() === "TERESINA" && row.cells[8].innerText.trim() === "Registrada") {
