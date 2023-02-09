@@ -423,16 +423,28 @@
     waitForKeyElements("#dtMultasWS_data", function (elem) {
       for (let row of elem.rows) {
         if (row.cells[6].innerText.trim() === "TERESINA" && row.cells[8].innerText.trim() === "Registrada") {
-          row.cells[10].innerHTML = `<a target='_blank' href='https://sistemas.detran.pi.gov.br/renainf-web/restrito/cadastro/notificacaoAutuacao/createNotificacaoAutuacao.jsf?placa=${
+          row.cells[10].innerHTML = `<a target='_blank' href='https://sistemas.detran.pi.gov.br/renainf-web/restrito/cadastro/notificacaoAutuacao/createNotificacaoAutuacao.jsf?auto=${
             row.cells[4].querySelector("span").innerText
+          }&placa=${
+            document.querySelector(
+              "#formMultas > div.row.hidden-print > div.col-lg-10.col-md-12.col-sm-12.col-xs-12 > div > div:nth-child(2) > p"
+            ).innerText
           }'><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>
-                                        <a target='_blank' href='https://sistemas.detran.pi.gov.br/renainf-web/restrito/cadastro/notificacaoPenalidade/createNotificacaoPenalidade.jsf?placa=${
-                                          row.cells[4].querySelector("span").innerText
-                                        }'><i class="fa fa-2x fa-usd" aria-hidden="true"></i></a>`;
+                                              <a target='_blank' href='https://sistemas.detran.pi.gov.br/renainf-web/restrito/cadastro/notificacaoPenalidade/createNotificacaoPenalidade.jsf?auto=${
+                                                row.cells[4].querySelector("span").innerText
+                                              }&placa=${
+            document.querySelector(
+              "#formMultas > div.row.hidden-print > div.col-lg-10.col-md-12.col-sm-12.col-xs-12 > div > div:nth-child(2) > p"
+            ).innerText
+          }'><i class="fa fa-2x fa-usd" aria-hidden="true"></i></a>`;
         }
         if (row.cells[6].innerText.trim() === "TERESINA" && row.cells[8].innerText.trim() === "Autuada") {
-          row.cells[10].innerHTML = `<a target='_blank' href='https://sistemas.detran.pi.gov.br/renainf-web/restrito/cadastro/notificacaoPenalidade/createNotificacaoPenalidade.jsf?placa=${
+          row.cells[10].innerHTML = `<a target='_blank' href='https://sistemas.detran.pi.gov.br/renainf-web/restrito/cadastro/notificacaoPenalidade/createNotificacaoPenalidade.jsf?auto=${
             row.cells[4].querySelector("span").innerText
+          }&placa=${
+            document.querySelector(
+              "#formMultas > div.row.hidden-print > div.col-lg-10.col-md-12.col-sm-12.col-xs-12 > div > div:nth-child(2) > p"
+            ).innerText
           }'><i class="fa fa-2x fa-usd" aria-hidden="true"></i></a>`;
         }
         if (
@@ -441,14 +453,19 @@
         ) {
           let linkOcorrencia = document.createElement("a");
           linkOcorrencia.target = "_blank";
-          linkOcorrencia.href = `https://sistemas.detran.pi.gov.br/renainf-web/restrito/servico/ocorrencia/createOcorrencia.jsf?placa=${
+          linkOcorrencia.href = `https://sistemas.detran.pi.gov.br/renainf-web/restrito/servico/ocorrencia/createOcorrencia.jsf?auto=${
             row.cells[4].querySelector("span").innerText
+          }&placa=${
+            document.querySelector(
+              "#formMultas > div.row.hidden-print > div.col-lg-10.col-md-12.col-sm-12.col-xs-12 > div > div:nth-child(2) > p"
+            ).innerText
           }`;
           linkOcorrencia.innerHTML = `<i style="margin-left: 5px;" class="fa fa-2x fa-file-text" aria-hidden="true"></i>`;
           row.cells[10].append(linkOcorrencia);
         }
       }
     });
+    
   }
   //BATRIF
   if (
