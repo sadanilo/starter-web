@@ -1,4 +1,4 @@
-//version 11.1 - Cadastrar infrator
+//version 12.2 - Cadastrar infrator
 //Indice
 //#CADOCOR = cadastro de ocorrência
 //#CONBANAC - Consulta Base Nacional
@@ -181,19 +181,18 @@
       let infoSummary = htmlToElements(
         `<div id="infoSummary" class="ui-panelgrid ui-widget ui-panelgrid-blank form-group" style="background-color: #ededed">
         <ul>
-          <li><a class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left button-blue" id="linkLicenciamento" target="_blank">
-            <span class="ui-button-icon-left ui-icon ui-c ui-icon-search"></span>
-            <span class="ui-button-text ui-c">Consultar Licenciamento</span>
+          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkLicenciamento" target="_blank">
+            <span class="ui-button-text ui-c">Licenciamento</span>
           </a></li>
-          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkAtendimento" target="_blank"><span class="ui-button-text ui-c">Consultar Baixa</span></a></li>
+          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkAtendimento" target="_blank"><span class="ui-button-text ui-c">Baixa</span></a></li>
           <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkBatrif" target="_blank"><span class="ui-button-text ui-c">Batrif</span></a></li>
           <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkPagrif" target="_blank"><span class="ui-button-text ui-c">Pagrif</span></a></li>
-          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkAutuar" target="_blank"><span class="ui-button-text ui-c">Autuar Infração</span></a></li>
-          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkPenalizar" target="_blank"><span class="ui-button-text ui-c">Penalizar Infração</span></a></li>
-          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkInfrator" target="_blank"><span class="ui-button-text ui-c">Cadastrar infrator</span></a></li>
-          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkOcorrencia" target="_blank"><span class="ui-button-text ui-c">Cadastrar Ocorrência</span></a></li>
-          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkOcorrenciaListar" target="_blank"><span class="ui-button-text ui-c">Listar Ocorrência</span></a></li>
-          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkLocal" target="_blank"><span class="ui-button-text ui-c">Consultar Local</span></a></li>
+          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkAutuar" target="_blank"><span class="ui-button-text ui-c">Autuar</span></a></li>
+          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkPenalizar" target="_blank"><span class="ui-button-text ui-c">Penalizar</span></a></li>
+          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkInfrator" target="_blank"><span class="ui-button-text ui-c">Cad. Infrator</span></a></li>
+          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkOcorrencia" target="_blank"><span class="ui-button-text ui-c">Cad. Ocorrência</span></a></li>
+          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkOcorrenciaListar" target="_blank"><span class="ui-button-text ui-c">Ver. Ocorrência</span></a></li>
+          <li><a class="ui-button ui-widget ui-state-default ui-corner-all button-blue" id="linkLocal" target="_blank"><span class="ui-button-text ui-c">Ver. Local</span></a></li>
         </ul>
         <div class="ui-panelgrid ui-widget ui-panelgrid-blank form-group">
           <div class="ui-panelgrid-content ui-widget-content ui-grid ui-grid-responsive"></div>
@@ -335,6 +334,12 @@
     #infoSummary a.button-blue, button.button-blue{
       background-color: #006296;
       color: #fff
+    }
+
+    @media (max-width: 1400px) {
+      #infoSummary span{
+        font-size: 12px !important;
+      }
     }
     
     div#j_idt75{
