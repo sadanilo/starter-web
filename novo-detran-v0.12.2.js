@@ -532,7 +532,7 @@
     document.querySelector("#inputRenavam").value = renavam;
 
     document.querySelector("#j_idt66\\:inputCaptcha").focus();
-    document.querySelector("##j_idt66\\:inputCaptcha").onkeypress = function (e) {
+    document.querySelector("#j_idt66\\:inputCaptcha").onkeypress = function (e) {
       e.preventDefault();
       if (e.key === "Enter") {
         document.querySelector("#botaoConsultarRenavamNovo").click();
