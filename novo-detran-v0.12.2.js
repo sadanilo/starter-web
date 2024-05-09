@@ -3,7 +3,6 @@
 //#CADOCOR = cadastro de ocorrência
 //#CONBANAC - Consulta Base Nacional
 //#BSELOCAL - Consulta Base Nacional
-//Update 1
 
 (function () {
   "use strict";
@@ -56,110 +55,108 @@
   };
 
   //Primeiro carregamento da página, ativa ao carregar a pagina de fora
+  // Check if the current page is the dashboard page
   if (window.location.href === "https://sistemas.detran.pi.gov.br/detran-web/restrito/dashboard.xhtml") {
-    let outsideCss = document.createElement("style");
-    outsideCss.innerHTML = `
-          
+    // Define the CSS styles to be injected
+    const customCss = `
+      a.button-red, button.button-red {
+        background-color: #a83240;
+      }
 
-          a.button-red, button.button-red{
-            background-color: #a83240;
-          }
+      a.button-green, button.button-green {
+        background-color: #1e9600;
+      }
 
-          a.button-green, button.button-green{
-            background-color: #1e9600;
-          }
+      a.button-purple, button.button-purple {
+        background-color: #8d0096;
+      }
 
-          a.button-purple, button.button-purple{
-            background-color: #8d0096;
-          }
+      #sistemas {
+        padding-top: 30px;
+      }
 
+      #upper > div {
+        display: none;
+      }
 
+      #menuform > div {
+        top: 0px;
+      }
 
-          #sistemas {
-            padding-top: 30px
-          }
-          #upper > div{
-            display: none;
+      #j_idt75 .ui-inputfield {
+        border-width: 2px;
+        padding: 4px;
+      }
 
-          }
-          #menuform > div{
-            top: 0px;
-          }
+      div.uix-dialog-fluid {
+        height: auto !important;
+      }
 
-          
+      /* Fix RENAVAM */
+      body > div.layout-wrapper.menu-layout-static.menu-layout-horizontal {
+        min-height: fit-content;
+        height: 95vh;
+      }
 
-          
+      body .ui-button.ui-button-icon-only.actionButtonTable {
+        border-radius: 0%;
+        padding: 0px;
+      }
 
-          #j_idt75 .ui-inputfield{
-            border-width: 2px;
-            padding: 4px;
+      /* Style the tab */
+      .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+      }
 
-          }
+      /* Style the buttons that are used to open the tab content */
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+      }
 
-          div.uix-dialog-fluid{
-            height: auto !important;
-          }
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+        background-color: #ddd;
+      }
 
-          /*Fix RENAVAM*/
-          body > div.layout-wrapper.menu-layout-static.menu-layout-horizontal{
-            min-height: fit-content;
-            height: 95vh;
-          }
+      /* Create an active/current tablink class */
+      .tab button.active {
+        background-color: #ccc;
+      }
 
-          body .ui-button.ui-button-icon-only.actionButtonTable{
-            webkit-border-radius: 0%;
-            border-radius: 0%;
-            padding: 0px;
-          }
+      /* Style the tab content */
+      .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+      }
+    `;
 
-          /* Style the tab */
-          .tab {
-            overflow: hidden;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
-          }
+    // Create a <style> element and inject the CSS styles
+    const styleElement = document.createElement("style");
+    styleElement.innerHTML = customCss;
+    document.head.append(styleElement);
+    console.log("Applied custom CSS");
 
-          /* Style the buttons that are used to open the tab content */
-          .tab button {
-            background-color: inherit;
-            float: left;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 14px 16px;
-            transition: 0.3s;
-          }
-
-          /* Change background color of buttons on hover */
-          .tab button:hover {
-            background-color: #ddd;
-          }
-
-          /* Create an active/current tablink class */
-          .tab button.active {
-            background-color: #ccc;
-          }
-
-          /* Style the tab content */
-          .tabcontent {
-            display: none;
-            padding: 6px 12px;
-            border: 1px solid #ccc;
-            border-top: none;
-          }`;
-    document.head.append(outsideCss);
-    console.log("applied outsideCss");
-
-    waitForKeyElements("iframe", function (elem) {
-      //console.log(elem);
-      elem.onload = function () {
-        console.log("frame detected");
-        elem.style.height = "95vh";
-        elem.style.overflowX = "hidden";
-        elem.style.overflowY = "hidden";
+    // Wait for <iframe> elements to load and adjust their styles
+    waitForKeyElements("iframe", function (iframe) {
+      iframe.onload = function () {
+        console.log("Frame detected");
+        iframe.style.height = "95vh";
+        iframe.style.overflowX = "hidden";
+        iframe.style.overflowY = "hidden";
       };
     });
   }
+
   //#CONBANAC - Consulta Base Nacional
   if (
     window.location.host === "sistemas.detran.pi.gov.br" &&
@@ -826,21 +823,21 @@
     let botaoPreencheJulgamentoAutuador = htmlToElements(`
     <button id="" name="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left button-blue" role="button" aria-disabled="false" >
     <span class="ui-button-icon-left ui-icon ui-c fa fa-pencil" alt="Cadastrar Defesa da Autuação"></span>
-    <span class="ui-button-text ui-c">Cadastrar Defesa</span>
+    <span class="ui-button-text ui-c">Cad Defesa</span>
     <span class="ink animate" style="height: 32px; width: 32px; top: -1.69098px; left: -1px; pointer-events: none;"></span>
     </button>`);
 
     let botaoPreencheDeferimentoAutuador = htmlToElements(`
     <button id="" name="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left button-green" role="button" aria-disabled="false">
     <span class="ui-button-icon-left ui-icon ui-c fa fa-check"></span>
-    <span class="ui-button-text ui-c">Deferir Defesa</span>
+    <span class="ui-button-text ui-c">Def. Defesa</span>
     <span class="ink animate" style="height: 32px; width: 32px; top: -1.69098px; left: -1px; pointer-events: none;"></span>
     </button>`);
 
     let botaoPreencheIndeferimentoAutuador = htmlToElements(`
     <button id="" name="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left button-red" role="button" aria-disabled="false">
     <span class="ui-button-icon-left ui-icon ui-c fa fa-window-close"></span>
-    <span class="ui-button-text ui-c">Indeferir Defesa</span>
+    <span class="ui-button-text ui-c">Indef. Defesa</span>
     <span class="ink animate" style="height: 32px; width: 32px; top: -1.69098px; left: -1px; pointer-events: none;"></span>
     </button>`);
 
@@ -851,24 +848,31 @@
     <span class="ink animate" style="height: 32px; width: 32px; top: -1.69098px; left: -1px; pointer-events: none;"></span>
     </button>`);
 
+    let botaoPreencheCancelamentoAutuadas = htmlToElements(`
+    <button id="" name="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left button-blue" role="button" aria-disabled="false">
+    <span class="ui-button-icon-left ui-icon ui-c fa fa-scissors"></span>
+    <span class="ui-button-text ui-c">Cancelar Autuadas</span>
+    <span class="ink animate" style="height: 32px; width: 32px; top: -1.69098px; left: -1px; pointer-events: none;"></span>
+    </button>`);
+
     let botaoPreencheJulgamentoJari = htmlToElements(`
     <button id="" name="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left button-blue" role="button" aria-disabled="false">
     <span class="ui-button-icon-left ui-icon ui-c fa fa-pencil"></span>
-    <span class="ui-button-text ui-c">Cadastrar Jari</span>
+    <span class="ui-button-text ui-c">Cad. Jari</span>
     <span class="ink animate" style="height: 32px; width: 32px; top: -1.69098px; left: -1px; pointer-events: none;"></span>
     </button>`);
 
     let botaoPreencheIndeferimentoJari = htmlToElements(`
     <button id="" name="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left button-red" role="button" aria-disabled="false">
     <span class="ui-button-icon-left ui-icon ui-c fa fa-window-close"></span>
-    <span class="ui-button-text ui-c">Indeferir Jari</span>
+    <span class="ui-button-text ui-c">Indef. Jari</span>
     <span class="ink animate" style="height: 32px; width: 32px; top: -1.69098px; left: -1px; pointer-events: none;"></span>
     </button>`);
 
     let botaoPreencheDeferimentoJari = htmlToElements(`
     <button id="" name="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left button-green" role="button" aria-disabled="false">
     <span class="ui-button-icon-left ui-icon ui-c fa fa-check"></span>
-    <span class="ui-button-text ui-c">Deferir Jari</span>
+    <span class="ui-button-text ui-c">Def. Jari</span>
     <span class="ink animate" style="height: 32px; width: 32px; top: -1.69098px; left: -1px; pointer-events: none;"></span>
     </button>`);
 
@@ -995,6 +999,20 @@
       }
     };
 
+    botaoPreencheCancelamentoAutuadas.onclick = async function (e) {
+      e.preventDefault();
+      document.querySelector("#formCreateOcorrencia\\:origemOcorrencia_3").click();
+      setTimeout(function () {
+        document.querySelector("#formCreateOcorrencia\\:tipoOcorrencia_5").click();
+      }, 1000);
+
+      let today = new Date(Date.now());
+      document.querySelector("#formCreateOcorrencia\\:dataOcorrencia_input").value = today.toLocaleDateString();
+      //preenche o textarea
+      document.querySelector("#formCreateOcorrencia\\:numeroProcesso").value = "00077.020835/2023-31";
+      document.querySelector("#formCreateOcorrencia\\:observacoes").innerText = "DOM PORTARIA Nº 30-2024 (SEI nº 9593886)";
+    };
+
     botaoPreencheJulgamentoJari.onclick = function (e) {
       e.preventDefault();
       //clica no JARI no select
@@ -1065,6 +1083,7 @@
       document.querySelector("#formCreateOcorrencia > div.uix-center").append(botaoPreencheIndeferimentoJari);
       document.querySelector("#formCreateOcorrencia > div.uix-center").append(botaoPreencheDeferimentoJari);
       document.querySelector("#formCreateOcorrencia > div.uix-center").append(botaoPreencheCancelamentoAutuador);
+      document.querySelector("#formCreateOcorrencia > div.uix-center").append(botaoPreencheCancelamentoAutuadas);
 
       document.querySelector("#formCreateOcorrencia\\:j_idt117_content > div > div:nth-child(2) > span").append(botaoNumeroProcesso);
       document.querySelector("#formCreateOcorrencia\\:formConsultaMulta > div.uix-center").append(botaoPreencheAuto);
@@ -1099,7 +1118,7 @@
   }
 
   //#BSELOCAL = Consulta Base Local
-  if (window.location.host === "sistemas.detran.pi.gov.br" && window.location.pathname === "/renainf-web/restrito/cadastro/multa/listMulta.jsf") {
+  if (window.location.host === "sistemas.detran.pi.gov.br" && window.location.pathname === "/renainf-web/restrito/cadastro/multa/listMulta.jsf?") {
     const urlParams = new URLSearchParams(window.location.search);
     let placa = urlParams.get("placa");
     document.querySelector("#formListMulta\\:placa").value = placa;
