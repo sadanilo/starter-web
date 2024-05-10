@@ -1,4 +1,4 @@
-//version 12.2 - Cadastrar infrator
+//version 12.2 - added cancelar autuadas
 //Indice
 //#CADOCOR = cadastro de ocorrência
 //#CONBANAC - Consulta Base Nacional
@@ -1118,11 +1118,13 @@
   }
 
   //#BSELOCAL = Consulta Base Local
-  if (window.location.host === "sistemas.detran.pi.gov.br" && window.location.pathname === "/renainf-web/restrito/cadastro/multa/listMulta.jsf?") {
+  if (window.location.host === "sistemas.detran.pi.gov.br" && window.location.pathname === "/renainf-web/restrito/cadastro/multa/listMulta.jsf") {
     const urlParams = new URLSearchParams(window.location.search);
     let placa = urlParams.get("placa");
-    document.querySelector("#formListMulta\\:placa").value = placa;
-    document.querySelector("#formListMulta\\:j_idt58").click();
+    if (placa) {
+      document.querySelector("#formListMulta\\:placa").value = placa;
+      document.querySelector("#formListMulta\\:j_idt58").click();
+    }
   }
 
   if (
