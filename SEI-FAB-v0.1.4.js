@@ -1,43 +1,44 @@
-//version 0.1.3
+//version 0.1.4
 //skip type check for report and read full text to find plate and fine
+//Global Variables
+const EVENT_OPTIONS = { bubbles: true, cancelable: false, composed: true };
+const EVENTS = {
+  FOCUS: new Event("focus", EVENT_OPTIONS),
+  BLUR: new Event("blur", EVENT_OPTIONS),
+  SUBMIT: new Event("submit", EVENT_OPTIONS),
+  CHANGE: new Event("change", EVENT_OPTIONS),
+  INPUT: new Event("input", EVENT_OPTIONS),
+  KEYUP: new Event("keyup", EVENT_OPTIONS),
+  KEYPRESS: new Event("keypress", EVENT_OPTIONS),
+  KEYDOWN: new Event("keydown", EVENT_OPTIONS),
+  MOUSEDOWN: new Event("mousedown", EVENT_OPTIONS),
+};
 
-(function () {
-  "use strict";
+//Functios Definitions
 
-  function changeTitle() {
-    const oldTitleText = document.querySelector("title").innerText;
+//Converts string of html into actual elements
+function htmlToElements(html) {
+  var template = document.createElement("template");
+  html = html.trim();
+  template.innerHTML = html;
+  return template.content.firstChild;
+}
 
-    if (oldTitleText !== "SEI - Enviar Documento por Correio Eletrônico - Google Chrome") {
-      document.querySelector("title").innerText = "SEI";
+//Enclosed Json parse with try/catch
+function tryParseJSONObject(jsonString) {
+  try {
+    let o = JSON.parse(jsonString);
+    if (o && typeof o === "object") {
+      return o;
     }
-  }
-
-  function htmlToElements(html) {
-    var template = document.createElement("template");
-    html = html.trim();
-    template.innerHTML = html;
-    return template.content.firstChild;
-  }
-
-  function tryParseJSONObject(jsonString) {
-    try {
-      let o = JSON.parse(jsonString);
-      if (o && typeof o === "object") {
-        return o;
-      }
-    } catch (e) {
-      return false;
-    }
+  } catch (e) {
     return false;
   }
+  return false;
+}
 
-  function getTypeOfProcess(title) {
-    if (title.includes("JARI")) {
-      return "JARI";
-    }
-    return "DEFESA";
-  }
-
+//Create CSS used for this tampering
+function createFabMarkup() {
   let fabCSS = document.createElement("style");
   fabCSS.innerHTML = `  
   .adminActions {
@@ -269,10 +270,10 @@
       await navigator.clipboard.writeText(JSON.stringify(data));
       savedObj = data;
     }
-    toast.querySelector(
-      ".message > p"
+    document.querySelector(
+      ".toastie > .message > p"
     ).innerText = `Processo: ${savedObj.procNumber}\n\nPlaca: ${savedObj.plate}\n\nAuto: ${savedObj.fine}\n\nData Abertura: ${savedObj.procDateOpen}`;
-    toast.querySelector(".message").classList.add("show");
+    document.querySelector(".toastie > .message").classList.add("show");
   };
 
   fab.querySelector("#copyActionDate").onclick = async function (e) {
@@ -305,10 +306,10 @@
       await navigator.clipboard.writeText(JSON.stringify(data));
       savedObj = data;
     }
-    toast.querySelector(
-      ".message > p"
+    document.querySelector(
+      ".toastie > .message > p"
     ).innerText = `Processo: ${savedObj.procNumber}\n\nPlaca: ${savedObj.plate}\n\nAuto: ${savedObj.fine}\n\nData Abertura: ${savedObj.procDateOpen}\n\nData Final: ${savedObj.dateFinal}\n\nDecisão: ${savedObj.typeOfProccess}`;
-    toast.querySelector(".message").classList.add("show");
+    document.querySelector(".toastie > .message").classList.add("show");
   };
   ///////////////////////////////////////////////////////////////////////////////////////////////
   //Copy fine plate
@@ -341,10 +342,10 @@
       savedObj = data;
     }
 
-    toast.querySelector(
-      ".message > p"
+    document.querySelector(
+      ".toastie > .message > p"
     ).innerText = `Processo: ${savedObj.procNumber}\n\nPlaca: ${savedObj.plate}\n\nAuto: ${savedObj.fine}\n\nData Abertura: ${savedObj.procDateOpen}\n\nData Final: ${savedObj.dateFinal}`;
-    toast.querySelector(".message").classList.add("show");
+    document.querySelector(".toastie > .message").classList.add("show");
   };
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -359,69 +360,70 @@
       "_blank"
     );
   };
+  return { fabCSS, fab, toast };
+}
+
+//Create and Add send to Juridical Department button
+
+function sendToDepartament(departament) {
+  let iframeInput = document.querySelector("#txtUnidade");
+  iframeInput.value = departament;
+  iframeInput.dispatchEvent(EVENTS.CHANGE);
+  iframeInput.dispatchEvent(EVENTS.INPUT);
+  iframeInput.dispatchEvent(EVENTS.KEYUP);
+  iframeInput.dispatchEvent(EVENTS.KEYDOWN);
+
+  setTimeout(function () {
+    document.querySelector("#divInfraAjaxtxtUnidade > ul > li").dispatchEvent(EVENTS.MOUSEDOWN);
+    document.querySelector("#sbmEnviar").click();
+  }, 2000);
+}
+
+function sendToDepartmentButton() {
+  let divAppend = document.querySelector("#divGeral");
+  divAppend.style.marginTop = "40px";
+  let buttonAT = htmlToElements(
+    '<button type="submit" id="sbmEnviarAT" class="infraButton" value="EnviarAT" style="position:absolute;top:-11%;">Enviar AT</button>'
+  );
+  let multasGGT = htmlToElements(
+    '<button type="submit" id="sbmEnviarMultasGGT" class="infraButton" value="EnviarMultasGGT" style="position:absolute;top:-11%;left:6%">Enviar Multas-GGT</button>'
+  );
+  let buttonGGT = htmlToElements(
+    '<button type="submit" id="sbmEnviarGGT" class="infraButton" value="EnviarGGT" style="position:absolute;top:-11%;left:16%">Enviar GGT</button>'
+  );
+  buttonAT.onclick = async function (e) {
+    e.preventDefault();
+    sendToDepartament("MULTAS-AT-STRANS");
+  };
+
+  multasGGT.onclick = async function (e) {
+    e.preventDefault();
+    sendToDepartament("MULTAS-GGT-STRANS");
+  };
+
+  buttonGGT.onclick = async function (e) {
+    e.preventDefault();
+    sendToDepartament("GGT-STRANS");
+  };
+
+  divAppend.prepend(buttonAT);
+  divAppend.prepend(multasGGT);
+  divAppend.prepend(buttonGGT);
+}
+
+(function () {
+  "use strict";
+
+  createFabMarkup();
 
   //sei.pmt.pi.gov.br/sei/controlador.php?acao=procedimento_enviar&acao_origem=arvore_visualizar&acao_retorno=arvore_visualizar&id_procedimento=7313676&arvore=1&infra_sistema=100000100&infra_unidade_atual=110002405&infra_hash=20a2335ccc3151ce93e379c7bd53f76db23575b42ade1f8aa1a7a810b51d5260
 
   if (window.location.href.indexOf("https://sei.pmt.pi.gov.br/sei/controlador.php?acao=procedimento_enviar") != -1) {
-    let divAppend = document.querySelector("#divGeral");
-    divAppend.style.marginTop = "40px";
-    let buttonAT = htmlToElements(
-      '<button type="submit" id="sbmEnviarAT" class="infraButton" value="EnviarAT" style="position:absolute;top:-11%;">Enviar AT</button>'
-    );
-    buttonAT.onclick = async function (e) {
-      e.preventDefault();
-      //let iframeDocumento = document.querySelector("#ifrVisualizacao");
-      let iframeInput = document.querySelector("#txtUnidade");
-      iframeInput.value = "MULTAS-AT-STRANS";
-      const EVENT_OPTIONS = { bubbles: true, cancelable: false, composed: true };
-      const EVENTS = {
-        // BLUR: new Event("blur", EVENT_OPTIONS),
-        // SUBMIT: new Event("submit", EVENT_OPTIONS),
-        CHANGE: new Event("change", EVENT_OPTIONS),
-        INPUT: new Event("input", EVENT_OPTIONS),
-        KEYUP: new Event("keyup", EVENT_OPTIONS),
-        KEYDOWN: new Event("keydown", EVENT_OPTIONS),
-      };
-      // iframeInput.dispatchEvent(EVENTS.BLUR);
-      // iframeInput.dispatchEvent(EVENTS.SUBMIT);
-      iframeInput.dispatchEvent(EVENTS.CHANGE);
-      iframeInput.dispatchEvent(EVENTS.INPUT);
-      iframeInput.dispatchEvent(EVENTS.KEYUP);
-      iframeInput.dispatchEvent(EVENTS.KEYDOWN);
-
-      setTimeout(function () {
-        document
-          .querySelector("#divInfraAjaxtxtUnidade > ul > li")
-          .dispatchEvent(new Event("mousedown", { bubbles: true, cancelable: false, composed: true }));
-        document.querySelector("#sbmEnviar").click();
-      }, 2000);
-    };
-
-    divAppend.prepend(buttonAT);
+    sendToDepartmentButton();
   }
 
-  document.head.append(fabCSS);
-  document.body.append(toast);
-  document.body.append(fab);
-
-  window.onLoad = (function () {
-    //setInterval(changeTitle, 3000);
-    waitForKeyElements("#pwdSenha", function (elem) {
-      console.log("================================running================================");
-      elem.setAttribute("autocomplete", "on");
-      const EVENT_OPTIONS = { bubbles: true, cancelable: false, composed: true };
-      const EVENTS = {
-        BLUR: new Event("blur", EVENT_OPTIONS),
-        FOCUS: new Event("focus", EVENT_OPTIONS),
-        CHANGE: new Event("change", EVENT_OPTIONS),
-        INPUT: new Event("input"),
-        KEYPRESS: new Event("keypress", EVENT_OPTIONS),
-      };
-      elem.dispatchEvent(EVENTS.FOCUS);
-      elem.dispatchEvent(EVENTS.KEYPRESS);
-      elem.value = "S@daN!l0";
-      elem.dispatchEvent(EVENTS.CHANGE);
-      elem.dispatchEvent(EVENTS.INPUT);
-    });
-  })();
+  document.head.append(createFabMarkup().fabCSS);
+  document.body.append(createFabMarkup().toast);
+  document.body.append(createFabMarkup().fab);
+  console.log(createFabMarkup().fab);
 })();
