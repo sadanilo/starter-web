@@ -389,7 +389,7 @@ function sendToDepartmentButton() {
     '<button type="submit" id="sbmEnviarMultasGGT" class="infraButton" value="EnviarMultasGGT" style="position:absolute;top:-11%;left:8%">Enviar Multas-GGT</button>'
   );
   let buttonGGT = htmlToElements(
-    '<button type="submit" id="sbmEnviarGGT" class="infraButton" value="EnviarGGT" style="position:absolute;top:-11%;left:18%">Enviar GGT</button>'
+    '<button type="submit" id="sbmEnviarGGT" class="infraButton" value="EnviarGGT" style="position:absolute;top:-11%;left:22%">Enviar GGT</button>'
   );
   buttonAT.onclick = async function (e) {
     e.preventDefault();
