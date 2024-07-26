@@ -1,4 +1,4 @@
-//version 12.2 - added cancelar autuadas
+//version 12.3 - fixed focus on captcha field
 //Indice
 //#CADOCOR = cadastro de ocorrência
 //#CONBANAC - Consulta Base Nacional
@@ -529,8 +529,8 @@
     document.querySelector("#inputPlaca").value = placa;
     document.querySelector("#inputRenavam").value = renavam;
 
-    document.querySelector("#j_idt66\\:inputCaptcha").focus();
-    document.querySelector("#j_idt66\\:inputCaptcha").onkeypress = function (e) {
+    document.querySelector("#j_idt65\\:inputCaptcha").focus();
+    document.querySelector("#j_idt65\\:inputCaptcha").onkeypress = function (e) {
       e.preventDefault();
       if (e.key === "Enter") {
         document.querySelector("#botaoConsultarRenavamNovo").click();
